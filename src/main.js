@@ -11,7 +11,7 @@ scene.background = new THREE.Color(0x000000);
 
 let aspecto = window.innerWidth / window.innerHeight;
 const camera = new THREE.PerspectiveCamera(
-  100, //campo de visao vertical
+  110, //campo de visao vertical
   aspecto, //aspecto da imagem (Largura/Altura)
   0.5, //Plano proximo
   100 //Plano distante
@@ -29,7 +29,7 @@ scene.add(plight);
 
 // Circle
 const circle = new THREE.SphereGeometry(5);
-const texture = new THREE.TextureLoader().load('public/basketball.jpg');
+const texture = new THREE.TextureLoader().load('football.jpg');
 const material = new THREE.MeshBasicMaterial({ map: texture });
 const circleTexture = new THREE.Mesh(circle, material);
 scene.add(circleTexture);
@@ -63,20 +63,7 @@ mtlLoader.setPath(modelPath).load(mtlFile, (materials) => {
 function animate() {
   renderer.render(scene, camera);
   circleTexture.rotation.y += 0.01;
-  circleTexture.rotation.x += 0.01;
-  // if (circleTexture.position.y === 0) circleTexture.position.y += 1;
-  // if (circleTexture.position.y > -5) {
-  //   circleTexture.position.y -= 1;
-  // }
-
-  // if (circleTexture.position.y < 5) {
-  //   circleTexture.position.y += 1;
-  // }
-  // do {
-  //   circleTexture.position.y -= 0.1;
-  // } while (circleTexture.position.y > -5);
-
-  console.log(circleTexture.position.y);
+  circleTexture.rotation.x += 0.02;
 
   requestAnimationFrame(animate);
 }
@@ -86,3 +73,30 @@ function animate() {
 //   let my = event.clientY;
 //   if (model) model.rotation.x += (my - wh / 2) / wh / 100;
 // });
+window.addEventListener('keydown', (event) => {
+  if (event.key === 'w') {
+    if (circleTexture) circleTexture.rotation.x -= 0.1;
+  }
+  if (event.key === 's') {
+    if (circleTexture) circleTexture.rotation.x += 0.1;
+  }
+  if (event.key === 'a') {
+    if (circleTexture) circleTexture.rotation.y -= 0.1;
+  }
+  if (event.key === 'd') {
+    if (circleTexture) circleTexture.rotation.y += 0.1;
+  }
+
+  if (event.key === 'ArrowRight') {
+    if (circleTexture) circleTexture.position.x += 0.5;
+  }
+  if (event.key === 'ArrowLeft') {
+    if (circleTexture) circleTexture.position.x -= 0.5;
+  }
+  if (event.key === 'ArrowUp') {
+    if (circleTexture) circleTexture.position.y += 0.5;
+  }
+  if (event.key === 'ArrowDown') {
+    if (circleTexture) circleTexture.position.y -= 0.5;
+  }
+});
