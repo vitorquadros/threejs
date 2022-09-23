@@ -11,7 +11,7 @@ scene.background = new THREE.Color(0x000000);
 
 let aspecto = window.innerWidth / window.innerHeight;
 const camera = new THREE.PerspectiveCamera(
-  75, //campo de visao vertical
+  100, //campo de visao vertical
   aspecto, //aspecto da imagem (Largura/Altura)
   0.5, //Plano proximo
   100 //Plano distante
@@ -26,6 +26,13 @@ scene.add(light);
 var plight = new THREE.PointLight(0xffff00, 100);
 plight.position.set(-1, 1, 0);
 scene.add(plight);
+
+// Circle
+const circle = new THREE.SphereGeometry(5);
+const texture = new THREE.TextureLoader().load('public/basketball.jpg');
+const material = new THREE.MeshBasicMaterial({ map: texture });
+const circleTexture = new THREE.Mesh(circle, material);
+scene.add(circleTexture);
 
 let model;
 const modelPath = 'models/earth/';
@@ -45,17 +52,32 @@ mtlLoader.setPath(modelPath).load(mtlFile, (materials) => {
   objLoader.setMaterials(materials);
   objLoader.setPath(modelPath).load(objFile, (object) => {
     model = object;
-    model.scale.setScalar(0.05); //redimensiona o objeto
-    model.position.y = -0.5;
+    model.scale.setScalar(0.03); //redimensiona o objeto
+    model.position.y = -0.1;
     model.rotation.x = 0.5;
-    scene.add(model);
+    // scene.add(model);
     animate();
   });
 });
 
 function animate() {
   renderer.render(scene, camera);
-  // model.rotation.y += 0.05;
+  circleTexture.rotation.y += 0.01;
+  circleTexture.rotation.x += 0.01;
+  // if (circleTexture.position.y === 0) circleTexture.position.y += 1;
+  // if (circleTexture.position.y > -5) {
+  //   circleTexture.position.y -= 1;
+  // }
+
+  // if (circleTexture.position.y < 5) {
+  //   circleTexture.position.y += 1;
+  // }
+  // do {
+  //   circleTexture.position.y -= 0.1;
+  // } while (circleTexture.position.y > -5);
+
+  console.log(circleTexture.position.y);
+
   requestAnimationFrame(animate);
 }
 
